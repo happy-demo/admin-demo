@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +26,11 @@ public class User {
     }
     
     // 기본 생성자
-    public User() {
+    public UserEntity() {
     }
     
     // 생성자
-    public User(String username, String email) {
+    public UserEntity(String username, String email) {
         this.username = username;
         this.email = email;
     }

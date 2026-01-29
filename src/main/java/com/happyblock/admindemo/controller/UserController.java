@@ -1,6 +1,6 @@
 package com.happyblock.admindemo.controller;
 
-import com.happyblock.admindemo.entity.User;
+import com.happyblock.admindemo.entity.UserEntity;
 import com.happyblock.admindemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,73 +19,73 @@ public class UserController {
     
     // 모든 사용자 조회
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UserEntity>> getAllUsers() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return ResponseEntity.ok(userEntities);
     }
     
     // ID로 사용자 조회
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
         return user.map(ResponseEntity::ok)
                    .orElse(ResponseEntity.notFound().build());
     }
     
     // 사용자 생성
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) {
         // 중복 체크
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(userEntity.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Username already exists: " + user.getUsername());
+                    .body("Username already exists: " + userEntity.getUsername());
         }
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(userEntity.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Email already exists: " + user.getEmail());
+                    .body("Email already exists: " + userEntity.getEmail());
         }
         
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserEntity);
     }
     
     // 사용자 수정
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserEntity userEntityDetails) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
         
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         
-        User user = userOptional.get();
+        UserEntity userEntity = userOptional.get();
         
         // username 중복 체크 (다른 사용자가 사용 중인지)
-        if (userDetails.getUsername() != null && 
-            !user.getUsername().equals(userDetails.getUsername()) &&
-            userRepository.existsByUsername(userDetails.getUsername())) {
+        if (userEntityDetails.getUsername() != null &&
+            !userEntity.getUsername().equals(userEntityDetails.getUsername()) &&
+            userRepository.existsByUsername(userEntityDetails.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Username already exists: " + userDetails.getUsername());
+                    .body("Username already exists: " + userEntityDetails.getUsername());
         }
         
         // email 중복 체크 (다른 사용자가 사용 중인지)
-        if (userDetails.getEmail() != null && 
-            !user.getEmail().equals(userDetails.getEmail()) &&
-            userRepository.existsByEmail(userDetails.getEmail())) {
+        if (userEntityDetails.getEmail() != null &&
+            !userEntity.getEmail().equals(userEntityDetails.getEmail()) &&
+            userRepository.existsByEmail(userEntityDetails.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Email already exists: " + userDetails.getEmail());
+                    .body("Email already exists: " + userEntityDetails.getEmail());
         }
         
         // 업데이트
-        if (userDetails.getUsername() != null) {
-            user.setUsername(userDetails.getUsername());
+        if (userEntityDetails.getUsername() != null) {
+            userEntity.setUsername(userEntityDetails.getUsername());
         }
-        if (userDetails.getEmail() != null) {
-            user.setEmail(userDetails.getEmail());
+        if (userEntityDetails.getEmail() != null) {
+            userEntity.setEmail(userEntityDetails.getEmail());
         }
         
-        User updatedUser = userRepository.save(user);
-        return ResponseEntity.ok(updatedUser);
+        UserEntity updatedUserEntity = userRepository.save(userEntity);
+        return ResponseEntity.ok(updatedUserEntity);
     }
     
     // 사용자 삭제

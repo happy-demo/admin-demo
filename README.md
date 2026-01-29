@@ -37,17 +37,17 @@ java -jar build/libs/admin-demo-0.0.1-SNAPSHOT.jar
 
 #### 모든 사용자 조회
 ```
-GET /api/users
+GET /api/userEntities
 ```
 
 #### ID로 사용자 조회
 ```
-GET /api/users/{id}
+GET /api/userEntities/{id}
 ```
 
 #### 사용자 생성
 ```
-POST /api/users
+POST /api/userEntities
 Content-Type: application/json
 
 {
@@ -58,7 +58,7 @@ Content-Type: application/json
 
 #### 사용자 수정
 ```
-PUT /api/users/{id}
+PUT /api/userEntities/{id}
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ Content-Type: application/json
 
 #### 사용자 삭제
 ```
-DELETE /api/users/{id}
+DELETE /api/userEntities/{id}
 ```
 
 ## 예제 요청
@@ -78,23 +78,23 @@ DELETE /api/users/{id}
 
 ```bash
 # 모든 사용자 조회
-curl http://localhost:8080/api/users
+curl http://localhost:8080/api/userEntities
 
 # 사용자 생성
-curl -X POST http://localhost:8080/api/users \
+curl -X POST http://localhost:8080/api/userEntities \
   -H "Content-Type: application/json" \
   -d '{"username":"testuser","email":"test@example.com"}'
 
 # 사용자 조회
-curl http://localhost:8080/api/users/1
+curl http://localhost:8080/api/userEntities/1
 
 # 사용자 수정
-curl -X PUT http://localhost:8080/api/users/1 \
+curl -X PUT http://localhost:8080/api/userEntities/1 \
   -H "Content-Type: application/json" \
   -d '{"username":"updateduser","email":"updated@example.com"}'
 
 # 사용자 삭제
-curl -X DELETE http://localhost:8080/api/users/1
+curl -X DELETE http://localhost:8080/api/userEntities/1
 ```
 
 ## 데이터베이스 정보

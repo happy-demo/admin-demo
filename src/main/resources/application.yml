@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: admin-demo
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demodb
+    username: demo
+    password: demo
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+server:
+  port: 8080

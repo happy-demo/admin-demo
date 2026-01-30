@@ -36,7 +36,7 @@ public class TransactionQueryService {
     }
 
     public Transaction findByTxHash(TxHash txHash) {
-        return transactionRepository.findByTxHash(txHash.value())
+        return transactionRepository.findByTxHash(txHash)
                 .orElseThrow(() -> new IllegalArgumentException(txHash.value()));
     }
 }

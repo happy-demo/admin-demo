@@ -2,6 +2,7 @@ package com.happyblock.admindemo.domain.repository;
 
 import com.happyblock.admindemo.domain.model.Transaction;
 import com.happyblock.admindemo.domain.vo.TransactionId;
+import com.happyblock.admindemo.domain.vo.TxHash;
 import com.happyblock.admindemo.domain.vo.UserId;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.entity.TransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,11 +16,11 @@ public interface TransactionRepository {
 
     Optional<Transaction> findById(TransactionId id);
 
-    public List<Transaction> findAll();
+    List<Transaction> findAll();
 
     List<Transaction> findByUserId(UserId userId);
 
-    public Optional<Transaction> findByTxHash(String txHash);
+    Optional<Transaction> findByTxHash(TxHash txHash);
 
     void save(Transaction transaction);
 }

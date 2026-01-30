@@ -27,8 +27,8 @@ public class CustodyLedgerUseCase {
 
     public CustodyLedger createLedger(Long transactionId, Long walletId) {
 
-        Transaction tx = transactionRepository.find(TransactionId.of(transactionId));
-        Wallet wallet = walletRepository.find(WalletId.of(walletId));
+        Transaction tx = transactionRepository.findById(TransactionId.of(transactionId));
+        Wallet wallet = walletRepository.findById(WalletId.of(walletId));
 
         CustodyLedger ledger = CustodyLedger.create(tx, wallet);
 

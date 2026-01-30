@@ -3,14 +3,17 @@ package com.happyblock.admindemo.infrastructure.persistence.jpa.repository;
 import com.happyblock.admindemo.domain.model.Transaction;
 import com.happyblock.admindemo.domain.repository.TransactionRepository;
 import com.happyblock.admindemo.domain.vo.TransactionId;
+import com.happyblock.admindemo.domain.vo.TxHash;
 import com.happyblock.admindemo.domain.vo.UserId;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.entity.TransactionEntity;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.mapper.TransactionMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class TransactionRepositoryImpl implements TransactionRepository {
 
     private final TransactionJpaRepository jpaRepository;
@@ -41,9 +44,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Transaction> findByTxHash(TxHash txHash) {
-        return jpaRepository.findByTxHash(txHash.value())
+        return jpaRepository.findByTxHash(txHash)
                 .map(mapper::toDomain);
     }
 

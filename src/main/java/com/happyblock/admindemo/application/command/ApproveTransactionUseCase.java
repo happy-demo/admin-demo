@@ -22,10 +22,10 @@ public class ApproveTransactionUseCase {
     public void approve(TransactionId transactionId, UserId approverId) {
 
         Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new IllegalArgumentException(transactionId));
+                .orElseThrow(() -> new IllegalArgumentException(String.valueOf(transactionId)));
 
         User approver = userRepository.findById(approverId)
-                .orElseThrow(() -> new IllegalArgumentException(approverId));
+                .orElseThrow(() -> new IllegalArgumentException(String.valueOf(approverId)));
 
         // 핵심: 도메인에게 물어본다
         transaction.approveBy(approver);

@@ -1,5 +1,7 @@
 package com.happyblock.admindemo.presentation.controller;
 
+import com.happyblock.admindemo.application.command.UserUseCase;
+import com.happyblock.admindemo.application.query.UserQueryService;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import java.util.List;
 public class UserController {
 
     private final UserQueryService userQueryService;
+    private final UserUseCase userUseCase;
 
     // 모든 사용자 조회
     @GetMapping

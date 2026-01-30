@@ -2,13 +2,16 @@ package com.happyblock.admindemo.presentation.controller;
 
 import com.happyblock.admindemo.application.command.ApproveTransactionUseCase;
 import com.happyblock.admindemo.application.query.TransactionQueryService;
+import com.happyblock.admindemo.domain.model.Transaction;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.entity.TransactionEntity;
+import com.happyblock.admindemo.presentation.controller.dto.TransactionCreateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -60,7 +63,7 @@ public class TransactionController {
     @GetMapping("/status/{status}")
     public ResponseEntity<List<TransactionEntity>> getTransactionsByStatus(@PathVariable String status) {
         try {
-            TransactionEntity.TransactionStatus transactionStatus = TransactionEntity.TransactionStatus.valueOf(status);
+            Transaction.Status transactionStatus = Transaction.Status.valueOf(status);
             List<TransactionEntity> transactions = transactionQueryService.getTransactionsByStatus(transactionStatus);
             return ResponseEntity.ok(transactions);
         } catch (IllegalArgumentException e) {
@@ -70,9 +73,9 @@ public class TransactionController {
     
     // transaction 생성
     @PostMapping
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionEntity transactionEntity) {
+    public ResponseEntity<?> createTransaction(@RequestBody TransactionCreateDTO createDTO) {
         try {
-            TransactionEntity savedTransaction = transactionQueryService.createTransaction(transactionEntity);
+            TransactionEntity savedTransaction = transactionQueryService.createTransaction(createDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedTransaction);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -102,6 +105,28 @@ public class TransactionController {
             return ResponseEntity.ok().body("Transaction deleted successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    
+    // transaction 승인
+    @PostMapping("/{id}/approve")
+    public ResponseEntity<?> approveTransaction(@PathVariable Long id, @RequestBody Map<String, Long> request) {
+        try {
+            Long approverId = request.get("approverId");
+            if (approverId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("approverId is required");
+            }
+            
+            approveTransactionUseCase.approve(
+                    com.happyblock.admindemo.domain.vo.TransactionId.of(id),
+                    com.happyblock.admindemo.domain.vo.UserId.of(approverId)
+            );
+            
+            return ResponseEntity.ok().body("Transaction approved successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
         }
     }
 }

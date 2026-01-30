@@ -45,7 +45,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Optional<Transaction> findByTxHash(TxHash txHash) {
-        return jpaRepository.findByTxHash(txHash)
+        return jpaRepository.findByTxHash(txHash.value())
                 .map(mapper::toDomain);
     }
 

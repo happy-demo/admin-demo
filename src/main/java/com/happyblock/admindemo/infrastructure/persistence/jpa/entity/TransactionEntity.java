@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Setter
@@ -50,6 +51,9 @@ public class TransactionEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "transfer_type", nullable = false, columnDefinition = "transfer_type_enum")
     private TransferType transferType;
+    
+    @Column(name = "lots", nullable = false, precision = 30, scale = 15)
+    private BigDecimal lots;
     
     @Column(name = "created_at")
     private OffsetDateTime createdAt;

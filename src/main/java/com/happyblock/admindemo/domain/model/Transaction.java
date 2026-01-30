@@ -13,21 +13,14 @@ import java.math.BigDecimal;
 public class Transaction {
 
     private final TransactionId id;
-    private final UserId userId;
+    private final User user;
     private final BigDecimal amount;
+    private final BigDecimal lots;
     private final ServiceType serviceType;
     private final TransferType transferType;
-    private final TxHash txhash;
+    private final TxHash txHash;
+    private final String sequenceId;
     private Status status;
-
-    public Transaction(TransactionId id, UserId userId, BigDecimal amount, ServiceType serviceType, TransferType transferType, TxHash txhash) {
-        this.id = id;
-        this.userId = userId;
-        this.amount = amount;
-        this.serviceType = serviceType;
-        this.transferType = transferType;
-        this.txhash = txhash;
-    }
 
     public void assertCompleted() {
         if (status != Status.COMPLETED) {
@@ -49,14 +42,6 @@ public class Transaction {
         }
 
         this.status = Status.BOWMAN_APPROVE;
-    }
-
-    public BigDecimal amount() {
-        return amount;
-    }
-
-    public UserId userId() {
-        return userId;
     }
 
     // ENUM 타입 정의

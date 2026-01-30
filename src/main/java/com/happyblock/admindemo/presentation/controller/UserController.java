@@ -13,19 +13,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    
+    private final UserQueryService userQueryService;
+
     // 모든 사용자 조회
     @GetMapping
     public ResponseEntity<List<UserEntity>> getAllUsers() {
-        List<UserEntity> users = userService.getAllUsers();
+        List<UserEntity> users = userQueryService.getAllUsers();
         return ResponseEntity.ok(users);
     }
     
     // ID로 사용자 조회
     @GetMapping("/{id}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id)
+        return userQueryService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) {
         try {
-            UserEntity savedUser = userService.createUser(userEntity);
+            UserEntity savedUser = userUseCase.createUser(userEntity);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -45,7 +45,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserEntity userEntityDetails) {
         try {
-            UserEntity updatedUser = userService.updateUser(id, userEntityDetails);
+            UserEntity updatedUser = userUseCase.updateUser(id, userEntityDetails);
             return ResponseEntity.ok(updatedUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -56,7 +56,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
-            userService.deleteUser(id);
+            userUseCase.deleteUser(id);
             return ResponseEntity.ok().body("User deleted successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

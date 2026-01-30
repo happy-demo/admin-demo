@@ -3,6 +3,7 @@ package com.happyblock.admindemo.application.command;
 import com.happyblock.admindemo.domain.model.Transaction;
 import com.happyblock.admindemo.domain.model.User;
 import com.happyblock.admindemo.domain.repository.TransactionRepository;
+import com.happyblock.admindemo.domain.repository.UserRepository;
 import com.happyblock.admindemo.domain.vo.TransactionId;
 import com.happyblock.admindemo.domain.vo.UserId;
 import lombok.RequiredArgsConstructor;

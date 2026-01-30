@@ -42,6 +42,15 @@ public class Transaction {
         this.status = Status.BOWMAN_APPROVE;
     }
 
+    public void approveBy(User approver) {
+
+        if (!status.isApprovable()) {
+            throw new IllegalArgumentException(status.toString());
+        }
+
+        this.status = Status.BOWMAN_APPROVE;
+    }
+
     public BigDecimal amount() {
         return amount;
     }
@@ -108,6 +117,10 @@ public class Transaction {
 
         public boolean canComplete() {
             return this == BROADCASTING;
+        }
+
+        public boolean isApprovable() {
+            return this == PENDING_AUTHORIZATION;
         }
     }
 

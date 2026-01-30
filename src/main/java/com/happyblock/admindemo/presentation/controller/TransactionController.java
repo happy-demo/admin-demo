@@ -1,5 +1,6 @@
 package com.happyblock.admindemo.presentation.controller;
 
+import com.happyblock.admindemo.application.command.ApproveTransactionUseCase;
 import com.happyblock.admindemo.application.query.TransactionQueryService;
 import com.happyblock.admindemo.infrastructure.persistence.jpa.entity.TransactionEntity;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,8 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionQueryService transactionQueryService;
-    
+    private final ApproveTransactionUseCase approveTransactionUseCase;
+
     // 모든 transaction 조회
     @GetMapping
     public ResponseEntity<List<TransactionEntity>> getAllTransactions() {

@@ -4,11 +4,13 @@ import com.happyblock.admindemo.domain.vo.CustodyLedgerId;
 import com.happyblock.admindemo.domain.vo.TransactionId;
 import com.happyblock.admindemo.domain.vo.UserId;
 import com.happyblock.admindemo.domain.vo.WalletId;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Getter
+@Builder
 public class CustodyLedger {
 
     private final CustodyLedgerId id;
@@ -16,6 +18,20 @@ public class CustodyLedger {
     private final TransactionId transactionId;
     private final WalletId walletId;
     private final BigDecimal amount;
+
+    private CustodyLedger(
+            CustodyLedgerId id,
+            UserId userId,
+            TransactionId transactionId,
+            WalletId walletId,
+            BigDecimal amount
+    ) {
+        this.id = id;
+        this.userId = userId;
+        this.transactionId = transactionId;
+        this.walletId = walletId;
+        this.amount = amount;
+    }
 
     private CustodyLedger(
             UserId userId,
